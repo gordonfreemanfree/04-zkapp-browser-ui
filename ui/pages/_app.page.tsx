@@ -5,7 +5,6 @@ import './reactCOIServiceWorker'
 import ZkappWorkerClient from './zkappWorkerClient'
 
 import { PublicKey, PrivateKey, Field } from 'snarkyjs'
-import { makeAndSendTransaction } from './utils.js'
 
 let transactionFee = 0.1
 
@@ -124,7 +123,6 @@ export default function App() {
     const transactionJSON = await state.zkappWorkerClient!.getTransactionJSON()
 
     console.log('requesting send transaction...')
-
     const { hash } = await (window as any).mina.sendTransaction({
       transaction: transactionJSON,
       feePayer: {
@@ -132,13 +130,11 @@ export default function App() {
         memo: '',
       },
     })
+
     console.log(
       'See transaction at https://berkeley.minaexplorer.com/transaction/' +
         hash,
     )
-
-    console.log('transaction failed')
-    setState({ ...state, creatingTransaction: false })
 
     setState({ ...state, creatingTransaction: false })
   }
